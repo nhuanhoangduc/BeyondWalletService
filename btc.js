@@ -46,7 +46,8 @@ BtcService.getAddressInfo = (address) => new Promise((reject, resolve) => {
 
         resolve(info);
     });
-});;
+});
+
 
 BtcService.getTransactions = async (address, page = 1, perPage = 20) => {
     let ApiUrl = '';
@@ -69,6 +70,7 @@ BtcService.getTransactions = async (address, page = 1, perPage = 20) => {
         throw error;
     }
 };
+
 
 BtcService.getUtxos = (address) => new Promise((resolve, reject) => {
     const insight = new explorers.Insight(BtcService.network);
@@ -140,7 +142,7 @@ BtcService.sendTransaction = async (sendAddress, receiveAddress, privateKey, amo
 
         return transactionId;
     } catch (error) {
-    throw error;
+        throw error;
     }
 };
 
