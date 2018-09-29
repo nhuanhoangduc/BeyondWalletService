@@ -1,0 +1,27 @@
+{
+  "name": "beyondwalletservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhuanhoangduc/BeyondWalletService.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nhuanhoangduc/BeyondWalletService/issues"
+  },
+  "homepage": "https://github.com/nhuanhoangduc/BeyondWalletService#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bignumber.js": "^7.2.1",
+    "bitcore-explorers": "^1.0.1",
+    "bitcore-lib": "^0.15.0",
+    "lodash": "^4.17.11",
+    "url-join": "^4.0.0"
+  }
+}
