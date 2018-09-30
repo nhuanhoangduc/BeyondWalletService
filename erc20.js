@@ -1,33 +1,61 @@
 const axios = require('axios');
-const urljoin = require('url-join');
 const _ = require('lodash');
-
 const ethers = require('ethers');
-
-const ERROR_TYPES = require('configs/errorTypes');
-const erc20Tokens = require('configs/eth/erc20_tokens');
-const erc20ABI = require('configs/eth/erc20_abi');
-const TRANSACTION = require('configs/Transaction');
+const { BigNumber } = require('bignumber.js');
+const Errors = require('./errors');
+const Erc20ABI = require('./erc20.abi');
 
 
-const coinList = require('configs/coinList');
+const Erc20Service = {
+    network: 'rinkeby',
+    tokens: {
+        krm: {
+            "symbol": "krm",
+            "name": "Karma",
+            "decimal": 5,
+            "address": "0xf006126304d8f5104dff11ce230bc2f2ad3a0e81",
+            "transactionFee": 0.0005,
+        },
+    },
+};
 
-const ApiUrl = coinList.eth.apiUrl;
-const provider = coinList.eth.provider;
-const broadcastTransactionUrl = coinList.eth.broadcastTransactionUrl;
+
+Erc20Service.getApiUrl = () => {
+    let ApiUrl = '';
+
+    switch (Erc20Service.network) {
+        case 'mainnet':
+            ApiUrl = 'https://api.etherscan.io';
+            break;
+        case 'rinkeby':
+            ApiUrl = 'https://api-rinkeby.etherscan.io';
+            break;
+
+        default:
+            ApiUrl = 'https://api.etherscan.io';
+    }
+
+    return ApiUrl;
+};
 
 
-const Erc20Service = {};
+Erc20Service.importWalletFromPrivateKey = async (userPrivateKey) => {
+    const wallet = new ethers.Wallet(Buffer.from(userPrivateKey, 'hex'), new ethers.providers.InfuraProvider(Erc20Service.network));
+
+    return {
+        privateKey: userPrivateKey,
+        address: wallet.address,
+    };
+};
 
 
-Erc20Service.importWalletFromPrivateKey = async (userPrivateKey, mnemonic, password) => {
-    const wallet = new ethers.Wallet(Buffer.from(userPrivateKey, 'hex'));
+Erc20Service.generateKeystore = async (userPrivateKey, password) => {
+    const wallet = new ethers.Wallet(Buffer.from(userPrivateKey, 'hex'), new ethers.providers.InfuraProvider(Erc20Service.network));
     const keystore = await wallet.encrypt(password);
 
     return {
         privateKey: userPrivateKey,
         address: wallet.address,
-        mnemonic: mnemonic,
         keystore: keystore,
     };
 };
@@ -35,95 +63,61 @@ Erc20Service.importWalletFromPrivateKey = async (userPrivateKey, mnemonic, passw
 
 Erc20Service.importWalletFromKeystore = async (keystore, password) => {
     try {
-        const wallet = await ethers.Wallet.fromEncryptedWallet(keystore, password);
+        const wallet = await ethers.Wallet.fromEncryptedJson(keystore, password);
 
         return {
             privateKey: wallet.privateKey,
             address: wallet.address,
-            mnemonic: '',
             keystore: keystore,
         };
     } catch (error) {
         if (error.message === 'invalid password') {
-            throw new Error(ERROR_TYPES.INVALID_PASSWORD);
+            throw new Error(Errors.INVALID_PASSWORD);
         }
-        throw new Error(ERROR_TYPES.INVALID_KEYSTORE);
+        throw new Error(Errors.INVALID_KEYSTORE);
     }
 };
 
 
-Erc20Service.getAddressBalance = async (coin, address) => {
-    const contractAddress = erc20Tokens[coin].address;
+Erc20Service.getAddressInfo = async (coin, address) => {
+    const contractAddress = Erc20Service.tokens[coin].address;
+    const ApiUrl = Erc20Service.getApiUrl();
+
     try {
         const url = `${ApiUrl}/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${address}&tag=latest&apikey=YourApiKeyToken`;
         const response = await axios.get(url);
         const balance = response.data.result;
 
-        return balance / Math.pow(10, erc20Tokens[coin].decimal);
+        return {
+            balance: (new BigNumber(balance)).dividedBy(Math.pow(10, Erc20Service.tokens[coin].decimal)).toNumber(),
+        };
     } catch (error) {
-        throw new Error(ERROR_TYPES.REQUEST_FAILED);
+        throw new Error(Errors.SERVER_ERROR);
     }
 };
 
 
 Erc20Service.getTransactions = async (coin, address, page = 1, perPage = 20) => {
+    const ApiUrl = Erc20Service.getApiUrl();
+
     try {
-        const contractAddress = erc20Tokens[coin].address;
-        const decimals = erc20Tokens[coin].decimal;
+        const contractAddress = Erc20Service.tokens[coin].address;
+        const decimals = Erc20Service.tokens[coin].decimal;
 
         const url = `${ApiUrl}/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${address}&sort=desc&apikey=YourApiKeyToken&page=${page}&offset=${perPage}`;
         const response = await axios.get(url);
-        const rawTransactions = response.data.result;
+        const transactions = response.data.result;
 
-        const transactions = _.map(rawTransactions, (transaction) => {
-            if (transaction.isError === '1') {
-                return memo;
-            }
-
-            const transactionId = transaction.hash;
-            const sendAddress = transaction.from;
-            const receiveAddress = transaction.to;
-            const value = Number(transaction.value) / Math.pow(10, decimals);
-            const transactionUrl = urljoin(broadcastTransactionUrl, 'tx', transaction.hash);
-            const transactionTime = Number(transaction.timeStamp) * 1000;
-            const confirmations = Number(transaction.confirmations);
-
-            let actionType = '';
-            if (sendAddress.toLowerCase() === receiveAddress.toLowerCase()) {
-                actionType = TRANSACTION.ACTION.SELF;
-            } else if (sendAddress.toLowerCase() === address.toLowerCase()) {
-                actionType = TRANSACTION.ACTION.SENDER;
-            } else if (receiveAddress.toLowerCase() === address.toLowerCase()) {
-                actionType = TRANSACTION.ACTION.RECEIVER;
-            }
-
-            let status = '';
-            if (confirmations >= 16) {
-                status = TRANSACTION.STATUS.CONFIRMED;
-            } else {
-                status = TRANSACTION.STATUS.PENDING;
-            }
-
-            return {
-                id: transactionId,
-                sendAddress,
-                receiveAddress,
-                actionType,
-                value,
-                time: transactionTime,
-                status,
-                url: transactionUrl,
-            };
-        });
-
-        return _.uniqBy(transactions, 'id');
+        return transactions;
     } catch (error) {
-        throw new Error(ERROR_TYPES.REQUEST_FAILED);
+        throw new Error(Errors.SERVER_ERROR);
     }
 };
 
 
 Erc20Service.getContractABI = async (contractAddress) => {
+    const ApiUrl = Erc20Service.getApiUrl();
+
     try {
         const url = `${ApiUrl}/api?module=contract&action=getabi&address=${contractAddress}&apikey=YourApiKeyToken`;
         const response = await axios.get(url);
@@ -134,7 +128,7 @@ Erc20Service.getContractABI = async (contractAddress) => {
 
         return response.data.result;
     } catch (error) {
-        return erc20ABI;
+        return Erc20ABI;
     }
 };
 
@@ -143,20 +137,21 @@ Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, a
     try {
         privateKey = Buffer.from(privateKey, 'hex');
         
-        const wallet = new ethers.Wallet(privateKey);
-        wallet.provider = ethers.providers.getDefaultProvider(provider);
+        const wallet = new ethers.Wallet(privateKey, new ethers.providers.InfuraProvider(Erc20Service.network));
         
-        const contractAddress = erc20Tokens[coin].address;
+        const contractAddress = Erc20Service.tokens[coin].address;
         const contractAbiFragment = await Erc20Service.getContractABI(contractAddress);
 
-        const contract = new ethers.Contract(contractAddress, contractAbiFragment, wallet);
+        const contract = new ethers.Contract(contractAddress, contractAbiFragment, new ethers.providers.InfuraProvider(Erc20Service.network));
+        const contractWithSigner = contract.connect(wallet);
 
-        const decimals = erc20Tokens[coin].decimal;
+
+        const decimals = Erc20Service.tokens[coin].decimal;
         const numberOfTokens = ethers.utils.parseUnits(amount.toString(), decimals);
 
-        const transaction = await contract.transfer(receiveAddress, numberOfTokens);
+        const transaction = await contractWithSigner.transfer(receiveAddress, numberOfTokens);
 
-        return transaction;
+        return transaction.hash;
     } catch (error) {
         throw error;
     }
