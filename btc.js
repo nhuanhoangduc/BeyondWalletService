@@ -18,7 +18,7 @@ const BtcService = {
 
 BtcService.importWalletFromPrivateKey = (userPrivateKey) => {
     const privateKey = new PrivateKey(userPrivateKey);
-    const address = privateKey.toAddress(Networks[network]);
+    const address = privateKey.toAddress(Networks[BtcService.network]);
 
     return {
         address: address.toString(),
@@ -51,7 +51,7 @@ BtcService.getAddressInfo = (address) => new Promise((reject, resolve) => {
 
 BtcService.getTransactions = async (address, page = 1, perPage = 20) => {
     let ApiUrl = '';
-    if (network === 'livenet') {
+    if (BtcService.network === 'livenet') {
         ApiUrl = 'https://insight.bitpay.com';
     } else {
         ApiUrl = 'https://test-insight.bitpay.com';
