@@ -2,12 +2,8 @@ const axios = require('axios');
 const _ = require('lodash');
 const ethers = require('ethers');
 const { BigNumber } = require('bignumber.js');
-const Web3 = require('web3');
 const Errors = require('./errors');
 const Erc20ABI = require('./erc20.abi');
-
-
-const web3 = new Web3();
 
 
 const Erc20Service = {
@@ -54,11 +50,11 @@ Erc20Service.importWalletFromPrivateKey = (userPrivateKey) => {
 
 
 Erc20Service.generateKeystore = (userPrivateKey, password) => {
-    const keystore = web3.eth.accounts.encrypt(userPrivateKey, password);
+    // const keystore = web3.eth.accounts.encrypt(userPrivateKey, password);
 
     return {
         privateKey: userPrivateKey,
-        keystore: JSON.stringify(keystore),
+        keystore: 'JSON.stringify(keystore)',
     };
 };
 
