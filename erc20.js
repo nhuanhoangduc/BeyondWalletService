@@ -53,7 +53,7 @@ Erc20Service.importWalletFromPrivateKey = (userPrivateKey) => {
 };
 
 
-Erc20Service.generateKeystore = async (userPrivateKey, password) => {
+Erc20Service.generateKeystore = (userPrivateKey, password) => {
     const keystore = web3.eth.accounts.encrypt(userPrivateKey, password);
 
     return {
