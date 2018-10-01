@@ -36,13 +36,12 @@ BtcService.getAddressInfo = (address) => new Promise((reject, resolve) => {
             return;
         }
         
-        const info = {
-            ...rawInfo,
+        const info = _.assign(rawInfo, {
             balance: (new BigNumber(rawInfo.balance)).dividedBy(satoshiValue).toNumber(),
             totalReceived: (new BigNumber(rawInfo.totalReceived)).dividedBy(satoshiValue).toNumber(),
             totalSent: (new BigNumber(rawInfo.totalSent)).dividedBy(satoshiValue).toNumber(),
             unconfirmedBalance: (new BigNumber(rawInfo.unconfirmedBalance)).dividedBy(satoshiValue).toNumber(),
-        };
+        });
 
         resolve(info);
     });
