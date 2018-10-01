@@ -58,19 +58,19 @@ Erc20Service.generateKeystore = (userPrivateKey, password) => {
 
     return {
         privateKey: userPrivateKey,
-        keystore: keystore,
+        keystore: JSON.stringify(keystore),
     };
 };
 
 
 Erc20Service.importWalletFromKeystore = async (keystore, password) => {
     try {
-        const wallet = await ethers.Wallet.fromEncryptedJson(keystore, password);
+        const parsedKeystore = JSON.parse(keystore);
+        const wallet = web3.eth.accounts.decrypt(parsedKeystore, password);
 
         return {
             privateKey: wallet.privateKey,
             address: wallet.address,
-            keystore: keystore,
         };
     } catch (error) {
         if (error.message === 'invalid password') {

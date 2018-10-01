@@ -13,27 +13,27 @@ const Erc20Service = require('./erc20');
     // }
 
     // Import privatekey
-    try {
-        console.log();
-        console.log('Import private key');
-        const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
-        console.log('Address:', address);
-        console.log('Private key:', privateKey);
-        console.log('keystore:', keystore);
-    } catch (error) {
-        console.log(error);
-    }
-
-    // Import keystore
     // try {
     //     console.log();
-    //     console.log('Import keystore');
-    //     const { address, privateKey, keystore } = await Erc20Service.importWalletFromKeystore(`{"address":"a0631a5beff3509a7dfdfd09cadcc836bb09b483","id":"41d2f230-321b-42d8-9d44-b75cebc91ba0","version":3,"Crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"107bc8123ec8d82a02d78501eb9bb61d"},"ciphertext":"a08e4c74edd2c11eccb8b484a6577986c87c77140e8950a15236c8be2a1c2ee6","kdf":"scrypt","kdfparams":{"salt":"04d1db90f7c4bd5efd16bce82956cfbf29b345995aecb72a233ac43cef02645f","n":131072,"dklen":32,"p":1,"r":8},"mac":"87be497ec3f4db09695fbf7a7287390e5798297242b04dee6d4d5d124934f99f"}}`, 'nhuan');
+    //     console.log('Import private key');
+    //     const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
     //     console.log('Address:', address);
     //     console.log('Private key:', privateKey);
+    //     console.log('keystore:', keystore);
     // } catch (error) {
     //     console.log(error);
     // }
+
+    // Import keystore
+    try {
+        console.log();
+        console.log('Import keystore');
+        const { address, privateKey, keystore } = await Erc20Service.importWalletFromKeystore(`{"version":3,"id":"2fc42db8-67b2-4b58-afd1-70aed5edb51e","address":"bd3d1f62e92b27adb194505f3ba96cd318b364d7","crypto":{"ciphertext":"b272fd7fd1344e2f3551e9ec592ba9a4376d657edcec9867d300ec500899028c","cipherparams":{"iv":"4c972981a8993da91ff8416210d457f8"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"0e03df8c937637e3f299ad0366249e4ff9375b73da10185b24cdee798401d532","n":8192,"r":8,"p":1},"mac":"dbcda23fd9c0f27b532d88f2166433a81aeab2b708670ee99960c55c062ea6be"}}`, 'nhuan');
+        console.log('Address:', address);
+        console.log('Private key:', privateKey);
+    } catch (error) {
+        console.log(error);
+    }
 
     // Get address info
     // try {
