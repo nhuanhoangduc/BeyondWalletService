@@ -2,6 +2,8 @@ const axios = require('axios');
 const _ = require('lodash');
 const ethers = require('ethers');
 const { BigNumber } = require('bignumber.js');
+const EthereumjsWallet = require('ethereumjs-wallet');
+
 const Errors = require('./errors');
 const Erc20ABI = require('./erc20.abi');
 
@@ -50,23 +52,23 @@ Erc20Service.importWalletFromPrivateKey = (userPrivateKey) => {
 
 
 Erc20Service.generateKeystore = (userPrivateKey, password) => {
-    // const keystore = web3.eth.accounts.encrypt(userPrivateKey, password);
+    const wallet = EthereumjsWallet.fromPrivateKey(Buffer.from(userPrivateKey, 'hex'));
+    const keystore = wallet.toV3String(password);
 
     return {
         privateKey: userPrivateKey,
-        keystore: 'JSON.stringify(keystore)',
+        keystore: keystore,
     };
 };
 
 
 Erc20Service.importWalletFromKeystore = async (keystore, password) => {
     try {
-        const parsedKeystore = JSON.parse(keystore);
-        const wallet = web3.eth.accounts.decrypt(parsedKeystore, password);
+        const wallet = EthereumjsWallet.fromV3(keystore, password);
 
         return {
-            privateKey: wallet.privateKey,
-            address: wallet.address,
+            privateKey: wallet.getPrivateKey().toString('hex'),
+            address: wallet.getAddress().toString('hex'),
         };
     } catch (error) {
         if (error.message === 'invalid password') {

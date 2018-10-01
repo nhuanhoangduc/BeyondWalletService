@@ -12,10 +12,10 @@ const Erc20Service = require('./erc20');
     //     console.log(error);
     // }
 
-    // Import privatekey
+    // Generate keystore
     // try {
     //     console.log();
-    //     console.log('Import private key');
+    //     console.log('Generate keystore');
     //     const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
     //     console.log('Address:', address);
     //     console.log('Private key:', privateKey);
@@ -28,7 +28,7 @@ const Erc20Service = require('./erc20');
     try {
         console.log();
         console.log('Import keystore');
-        const { address, privateKey, keystore } = await Erc20Service.importWalletFromKeystore(`{"version":3,"id":"2fc42db8-67b2-4b58-afd1-70aed5edb51e","address":"bd3d1f62e92b27adb194505f3ba96cd318b364d7","crypto":{"ciphertext":"b272fd7fd1344e2f3551e9ec592ba9a4376d657edcec9867d300ec500899028c","cipherparams":{"iv":"4c972981a8993da91ff8416210d457f8"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"0e03df8c937637e3f299ad0366249e4ff9375b73da10185b24cdee798401d532","n":8192,"r":8,"p":1},"mac":"dbcda23fd9c0f27b532d88f2166433a81aeab2b708670ee99960c55c062ea6be"}}`, 'nhuan');
+        const { address, privateKey, keystore } = await Erc20Service.importWalletFromKeystore(`{"version":3,"id":"950bc641-0c49-4f61-bc14-f20b657df0bc","address":"a0631a5beff3509a7dfdfd09cadcc836bb09b483","crypto":{"ciphertext":"84fc9dcd9c193fac67712ece0436207df8baa755b3daf54913dc1133840462ed","cipherparams":{"iv":"8ec14259b256f2abd6d796ba1152a5bf"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"dklen":32,"salt":"622d898840bfd40c27e611cab2b32c4492122f771ba80ec8b635df45853fbfc7","n":262144,"r":8,"p":1},"mac":"62fa7705498e69268424d765c0ae47849a1caebd553084a2aa1f91a3deb3eee4"}}`, 'nhuan');
         console.log('Address:', address);
         console.log('Private key:', privateKey);
     } catch (error) {
