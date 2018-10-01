@@ -12,6 +12,18 @@ const Erc20Service = require('./erc20');
     //     console.log(error);
     // }
 
+    // Import privatekey
+    try {
+        console.log();
+        console.log('Import private key');
+        const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
+        console.log('Address:', address);
+        console.log('Private key:', privateKey);
+        console.log('keystore:', keystore);
+    } catch (error) {
+        console.log(error);
+    }
+
     // Import keystore
     // try {
     //     console.log();
@@ -54,20 +66,20 @@ const Erc20Service = require('./erc20');
     // }
 
     // Send transaction
-    try {
-        console.log();
-        console.log('Send transaction');
+    // try {
+    //     console.log();
+    //     console.log('Send transaction');
         
-        const transactionId = await Erc20Service.sendTransaction(
-            '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
-            '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
-            'C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521',
-            123,
-            0,
-            'krm'
-        );
-        console.log(transactionId);
-    } catch (error) {
-        console.log(error);
-    }
+    //     const transactionId = await Erc20Service.sendTransaction(
+    //         '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
+    //         '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
+    //         'C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521',
+    //         123,
+    //         0,
+    //         'krm'
+    //     );
+    //     console.log(transactionId);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 })();
