@@ -41,6 +41,16 @@ Erc20Service.getApiUrl = () => {
 };
 
 
+Erc20Service.isValidPrivateKey = (userPrivateKey) => {
+    try {
+        const wallet = new ethers.Wallet(Buffer.from(userPrivateKey, 'hex'), new ethers.providers.InfuraProvider(Erc20Service.network));
+        return true;
+    } catch (error) {
+        return false;
+    }
+};
+
+
 Erc20Service.importWalletFromPrivateKey = (userPrivateKey) => {
     const wallet = new ethers.Wallet(Buffer.from(userPrivateKey, 'hex'), new ethers.providers.InfuraProvider(Erc20Service.network));
 

@@ -16,6 +16,11 @@ const BtcService = {
 };
 
 
+BtcService.isValidPrivateKey = (userPrivateKey) => {
+    return PrivateKey.isValid(userPrivateKey);
+};
+
+
 BtcService.importWalletFromPrivateKey = (userPrivateKey) => {
     const privateKey = new PrivateKey(userPrivateKey);
     const address = privateKey.toAddress(Networks[BtcService.network]);
