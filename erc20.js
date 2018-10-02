@@ -78,7 +78,7 @@ Erc20Service.importWalletFromKeystore = (keystore, password) => {
 
         return {
             privateKey: wallet.getPrivateKey().toString('hex'),
-            address: wallet.getAddress().toString('hex'),
+            address: '0x' + wallet.getAddress().toString('hex'),
         };
     } catch (error) {
         if (_.includes(error.message, 'wrong passphrase')) {
