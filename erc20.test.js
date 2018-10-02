@@ -2,14 +2,14 @@ const Erc20Service = require('./erc20');
 
 (async function() {
     // Validate privatekey
-    try {
-        console.log();
-        console.log('Validate privatekey');
-        const isValid = Erc20Service.isValidPrivateKey('  ');
-        console.log('Valid:', isValid);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Validate privatekey');
+    //     const isValid = Erc20Service.isValidPrivateKey('  ');
+    //     console.log('Valid:', isValid);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Import private key
     // try {
@@ -23,16 +23,16 @@ const Erc20Service = require('./erc20');
     // }
 
     // Generate keystore
-    // try {
-    //     console.log();
-    //     console.log('Generate keystore');
-    //     const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
-    //     console.log('Address:', address);
-    //     console.log('Private key:', privateKey);
-    //     console.log('keystore:', keystore);
-    // } catch (error) {
-    //     console.log(error);
-    // }
+    try {
+        console.log();
+        console.log('Generate keystore');
+        const { address, privateKey, keystore } = await Erc20Service.generateKeystore('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', '123123123');
+        console.log('Address:', address);
+        console.log('Private key:', privateKey);
+        console.log('keystore:', keystore);
+    } catch (error) {
+        console.log(error);
+    }
 
     // Import keystore
     // try {

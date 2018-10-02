@@ -81,7 +81,7 @@ Erc20Service.importWalletFromKeystore = async (keystore, password) => {
             address: wallet.getAddress().toString('hex'),
         };
     } catch (error) {
-        if (error.message === 'invalid password') {
+        if (_.includes(error.message, 'wrong passphrase')) {
             throw new Error(Errors.INVALID_PASSWORD);
         }
         throw new Error(Errors.INVALID_KEYSTORE);
