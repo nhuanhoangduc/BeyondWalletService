@@ -8,11 +8,16 @@ const Errors = require('./errors');
 
 
 const satoshiValue = Math.pow(10, 8);
-const { PrivateKey, Networks, Transaction, Unit } = bitcore;
+const { Address, PrivateKey, Networks, Transaction, Unit } = bitcore;
 
 
 const BtcService = {
     network: 'testnet',
+};
+
+
+BtcService.isValidAddress = (address) => {
+    return Address.isValid(address);
 };
 
 

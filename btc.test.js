@@ -1,15 +1,25 @@
 const BtcService = require('./btc');
 
 (async function() {
-    // Validate privatekey
+    // Validate address
     try {
         console.log();
-        console.log('Validate privatekey');
-        const isValid = BtcService.isValidPrivateKey('     ');
+        console.log('Validate address');
+        const isValid = BtcService.isValidAddress('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
         console.log('Valid:', isValid);
     } catch (error) {
         console.log(error);
     }
+
+    // Validate privatekey
+    // try {
+    //     console.log();
+    //     console.log('Validate privatekey');
+    //     const isValid = BtcService.isValidPrivateKey('     ');
+    //     console.log('Valid:', isValid);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Import privatekey
     // try {

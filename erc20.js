@@ -3,6 +3,7 @@ const _ = require('lodash');
 const ethers = require('ethers');
 const { BigNumber } = require('bignumber.js');
 const EthereumjsWallet = require('ethereumjs-wallet');
+const EthUtil = require('ethereumjs-util');
 
 const Errors = require('./errors');
 const Erc20ABI = require('./erc20.abi');
@@ -38,6 +39,11 @@ Erc20Service.getApiUrl = () => {
     }
 
     return ApiUrl;
+};
+
+
+Erc20Service.isValidAddress = (address) => {
+    return EthUtil.isValidAddress(address);
 };
 
 
