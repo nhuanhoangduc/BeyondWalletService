@@ -46,7 +46,7 @@ BtcService.getAddressInfo = (address) => new Promise((resolve, reject) => {
             return;
         }
         
-        const info = _.assign(rawInfo, {
+        const info = _.assign(_.cloneDeep(rawInfo), {
             balance: (new BigNumber(rawInfo.balance)).dividedBy(satoshiValue).toNumber(),
             totalReceived: (new BigNumber(rawInfo.totalReceived)).dividedBy(satoshiValue).toNumber(),
             totalSent: (new BigNumber(rawInfo.totalSent)).dividedBy(satoshiValue).toNumber(),

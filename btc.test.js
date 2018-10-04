@@ -37,7 +37,7 @@ const BtcService = require('./btc');
         console.log();
         console.log('Get address info');
         const addressInfo = await BtcService.getAddressInfo('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
-        console.log('Address info:', addressInfo);
+        console.log('Address info:', addressInfo.balance);
     } catch (error) {
         console.log(error);
     }
