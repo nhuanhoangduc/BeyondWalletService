@@ -37,7 +37,7 @@ BtcService.importWalletFromPrivateKey = (userPrivateKey) => {
 };
 
 
-BtcService.getAddressInfo = (address) => new Promise((reject, resolve) => {
+BtcService.getAddressInfo = (address) => new Promise((resolve, reject) => {
     const insight = new explorers.Insight(BtcService.network);
 
     insight.address(address, (err, rawInfo) => {

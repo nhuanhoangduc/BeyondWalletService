@@ -2,14 +2,14 @@ const BtcService = require('./btc');
 
 (async function() {
     // Validate address
-    try {
-        console.log();
-        console.log('Validate address');
-        const isValid = BtcService.isValidAddress('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
-        console.log('Valid:', isValid);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Validate address');
+    //     const isValid = BtcService.isValidAddress('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
+    //     console.log('Valid:', isValid);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Validate privatekey
     // try {
@@ -32,15 +32,15 @@ const BtcService = require('./btc');
     //     console.log(error);
     // }
 
-    // Import privatekey
-    // try {
-    //     console.log();
-    //     console.log('Get address info');
-    //     const addressInfo = await BtcService.getAddressInfo('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
-    //     console.log('Address info:', addressInfo);
-    // } catch (error) {
-    //     console.log(error);
-    // }
+    // Get address info
+    try {
+        console.log();
+        console.log('Get address info');
+        const addressInfo = await BtcService.getAddressInfo('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
+        console.log('Address info:', addressInfo);
+    } catch (error) {
+        console.log(error);
+    }
 
     // Get transactions
     // try {
