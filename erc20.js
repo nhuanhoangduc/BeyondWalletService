@@ -27,7 +27,7 @@ Erc20Service.getApiUrl = () => {
     let ApiUrl = '';
 
     switch (Erc20Service.network) {
-        case 'mainnet':
+        case 'homestead':
             ApiUrl = 'https://api.etherscan.io';
             break;
         case 'rinkeby':

@@ -1,15 +1,17 @@
 const Erc20Service = require('./erc20');
 
+// Erc20Service.network = 'homestead';
+
 (async function() {
     // Validate address
-    try {
-        console.log();
-        console.log('Validate address');
-        const isValid = Erc20Service.isValidAddress('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483');
-        console.log('Valid:', isValid);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Validate address');
+    //     const isValid = Erc20Service.isValidAddress('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483');
+    //     console.log('Valid:', isValid);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Validate privatekey
     // try {
@@ -22,15 +24,15 @@ const Erc20Service = require('./erc20');
     // }
 
     // Import private key
-    // try {
-    //     console.log();
-    //     console.log('Import private key');
-    //     const { address, privateKey } = await Erc20Service.importWalletFromPrivateKey('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
-    //     console.log('Address:', address);
-    //     console.log('Private key:', privateKey);
-    // } catch (error) {
-    //     console.log(error);
-    // }
+    try {
+        console.log();
+        console.log('Import private key');
+        const { address, privateKey } = await Erc20Service.importWalletFromPrivateKey('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
+        console.log('Address:', address);
+        console.log('Private key:', privateKey);
+    } catch (error) {
+        console.log(error);
+    }
 
     // Generate keystore
     // try {
