@@ -48,7 +48,7 @@ Erc20Service.isValidAddress = (address) => {
 
 
 Erc20Service.isValidPrivateKey = (userPrivateKey) => {
-    const hexReg = /^[0-9a-fA-F]+$/;;
+    const hexReg = /^[0-9a-fA-F]+$/;
     return (
         hexReg.test(userPrivateKey) &&
         EthUtil.isValidPrivate(Buffer.from(userPrivateKey, 'hex'))
