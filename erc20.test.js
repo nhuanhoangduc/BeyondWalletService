@@ -14,25 +14,25 @@ const Erc20Service = require('./erc20');
     // }
 
     // Validate privatekey
-    // try {
-    //     console.log();
-    //     console.log('Validate privatekey');
-    //     const isValid = Erc20Service.isValidPrivateKey('  ');
-    //     console.log('Valid:', isValid);
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
-    // Import private key
     try {
         console.log();
-        console.log('Import private key');
-        const { address, privateKey } = await Erc20Service.importWalletFromPrivateKey('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
-        console.log('Address:', address);
-        console.log('Private key:', privateKey);
+        console.log('Validate privatekey');
+        const isValid = Erc20Service.isValidPrivateKey('3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266');
+        console.log('Valid:', isValid);
     } catch (error) {
         console.log(error);
     }
+
+    // Import private key
+    // try {
+    //     console.log();
+    //     console.log('Import private key');
+    //     const { address, privateKey } = await Erc20Service.importWalletFromPrivateKey('C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521', 'nhuan');
+    //     console.log('Address:', address);
+    //     console.log('Private key:', privateKey);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Generate keystore
     // try {
