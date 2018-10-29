@@ -134,7 +134,7 @@ BtcService.sendTransaction = async (sendAddress, receiveAddress, privateKey, amo
     }
 
     // Not enough coins
-    if ((balance - transactionAmount - minerFee) <= 0) {
+    if ((balance - transactionAmount - minerFee) < 0) {
         throw new Error(Errors.NOT_ENOUGH_COIN);
     }
 
