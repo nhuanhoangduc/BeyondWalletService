@@ -33,14 +33,14 @@ const BtcService = require('./btc');
     // }
 
     // Get address info
-    try {
-        console.log();
-        console.log('Get address info');
-        const addressInfo = await BtcService.getAddressInfo('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
-        console.log('Address info:', addressInfo.balance);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Get address info');
+    //     const addressInfo = await BtcService.getAddressInfo('mp7STSWcGzMVnNxQHv2jrJiCDdBnD36Fik');
+    //     console.log('Address info:', addressInfo.balance);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Get transactions
     // try {
@@ -77,4 +77,14 @@ const BtcService = require('./btc');
     // } catch (error) {
     //     console.log(error);
     // }
+
+    // Get fee
+    try {
+        console.log();
+        console.log('Get fee');
+        const fee = await BtcService.estimateFee('mu3Wkzg9gq3SMRdRXaHd9e2Cb4jmn1D5oh', 200);
+        console.log('fee:', fee);
+    } catch (error) {
+        console.log(error);
+    }
 })();

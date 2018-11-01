@@ -13,6 +13,7 @@ const { Address, PrivateKey, Networks, Transaction, Unit } = bitcore;
 
 const BtcService = {
     network: 'testnet',
+    minerFeeRate: 100000, // 100 000 satoshi per kb
 };
 
 
@@ -108,6 +109,32 @@ BtcService.broadcast = (transaction) => new Promise((resolve, reject) => {
         });
     });
 });
+
+
+BtcService.estimateFee = async (sendAddress, amount) => {
+    const transactionAmount = (new BigNumber(amount)).multipliedBy(satoshiValue).toNumber();
+
+    // Get utxos
+    let utxos = [];
+    try {
+        utxos = await BtcService.getUtxos(sendAddress);
+    } catch (error) {
+        throw new Error(Errors.SERVER_ERROR);
+    }
+
+    try {
+        const transaction = new Transaction()
+            .from(utxos)
+            .to(sendAddress, transactionAmount)
+            .change(sendAddress)
+            .feePerKb(BtcService.minerFeeRate);
+        const transactionFee = transaction._estimateFee();
+
+        return (new BigNumber(transactionFee)).dividedBy(satoshiValue).toNumber();
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 BtcService.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0.0001) => {
