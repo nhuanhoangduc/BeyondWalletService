@@ -206,9 +206,10 @@ Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
         };
         
         const provider = new ethers.providers.InfuraProvider(Erc20Service.network);
-        const fee = await provider.estimateGas(transaction);
-
-        return web3.fromWei(fee.toNumber(), 'gwei');
+        let fee = await provider.estimateGas(transaction);
+        fee = web3.fromWei(fee.toNumber(), 'gwei'); // Convert to eth unit
+        fee = (new BigNumber(fee)).multipliedBy(1.1).toNumber();
+        return fee;
     } catch (error) {
         throw error;
     }
