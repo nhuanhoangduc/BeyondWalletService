@@ -1,4 +1,5 @@
 const Erc20Service = require('./erc20');
+const { BigNumber } = require('bignumber.js');
 
 // Erc20Service.network = 'homestead';
 
@@ -14,14 +15,14 @@ const Erc20Service = require('./erc20');
     // }
 
     // Validate privatekey
-    try {
-        console.log();
-        console.log('Validate privatekey');
-        const isValid = Erc20Service.isValidPrivateKey('3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266');
-        console.log('Valid:', isValid);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Validate privatekey');
+    //     const isValid = Erc20Service.isValidPrivateKey('3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266');
+    //     console.log('Valid:', isValid);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Import private key
     // try {
@@ -101,6 +102,38 @@ const Erc20Service = require('./erc20');
     //         'krm'
     //     );
     //     console.log(transactionId);
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+    // Get fee
+    try {
+        console.log();
+        console.log('Get fee');
+        const exchangeRate = await Erc20Service.getExchangeRate('krm');
+        const feerate = await Erc20Service.getFeeRate();
+        const fee = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
+        console.log('fee:', fee * exchangeRate);
+    } catch (error) {
+        console.log(error);
+    }
+
+    // Get exchange rate
+    // try {
+    //     console.log();
+    //     console.log('Get exchange rate');
+    //     const rate = await Erc20Service.getExchangeRate('krm');
+    //     console.log('rate:', rate);
+    // } catch (error) {
+    //     console.log(error);
+    // }
+
+    // Get fee rate
+    // try {
+    //     console.log();
+    //     console.log('Get fee rate');
+    //     const feerate = await Erc20Service.getFeeRate();
+    //     console.log('feerate:', feerate);
     // } catch (error) {
     //     console.log(error);
     // }

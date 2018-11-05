@@ -4,9 +4,12 @@ const ethers = require('ethers');
 const { BigNumber } = require('bignumber.js');
 const EthereumjsWallet = require('ethereumjs-wallet');
 const EthUtil = require('ethereumjs-util');
+const Web3 = require('web3');
 
 const Errors = require('./errors');
 const Erc20ABI = require('./erc20.abi');
+
+const web3 = new Web3();
 
 
 const Erc20Service = {
@@ -148,6 +151,68 @@ Erc20Service.getContractABI = async (contractAddress) => {
 };
 
 
+Erc20Service.getExchangeRate = async (coin) => {
+    try {
+        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=${coin.toUpperCase()}`;
+        const response = await axios.get(url);
+
+        const exchangeRate = response.data.RAW.ETH[coin.toUpperCase()].PRICE;
+        return exchangeRate;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+Erc20Service.getFeeRate = async () => {
+    try {
+        const url = `https://ethgasstation.info/json/ethgasAPI.json`;
+        const response = await axios.get(url);
+
+        const freeRate = (new BigNumber(response.data.average)).dividedBy(10).dividedBy(Math.pow(10, 9)).toNumber();
+        return freeRate;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+Erc20Service.estimateFee = async (sendAddress, amount, minerFeeRate, coin) => {
+    try {
+        let estimatedGas = await Erc20Service.estimateGas(sendAddress, amount, coin);
+        estimatedGas = (new BigNumber(estimatedGas)).multipliedBy(Math.pow(10,9)).toNumber();
+        const estimatedFee = (new BigNumber(estimatedGas)).multipliedBy(minerFeeRate).toNumber();
+
+        return estimatedFee;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
+    try {
+        const contractAddress = Erc20Service.tokens[coin].address;
+        const contractAbiFragment = await Erc20Service.getContractABI(contractAddress);
+
+        const MyContract = web3.eth.contract(JSON.parse(contractAbiFragment)).at(contractAddress);
+        const transaction = {
+            from: sendAddress,
+            to: contractAddress,
+            value: '0x0',
+            data: MyContract.transfer.getData(sendAddress, amount, { from: sendAddress }),
+        };
+        
+        const provider = new ethers.providers.InfuraProvider(Erc20Service.network);
+        const fee = await provider.estimateGas(transaction);
+
+        return web3.fromWei(fee.toNumber(), 'gwei');
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0, coin) => {
     try {
         privateKey = Buffer.from(privateKey, 'hex');
@@ -164,7 +229,9 @@ Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, a
         const decimals = Erc20Service.tokens[coin].decimal;
         const numberOfTokens = ethers.utils.parseUnits(amount.toString(), decimals);
 
-        const transaction = await contractWithSigner.transfer(receiveAddress, numberOfTokens);
+        const transaction = await contractWithSigner.transfer(receiveAddress, numberOfTokens, {
+            gasPrice: 1230000000, gasLimit: 96000,
+        });
 
         return transaction.hash;
     } catch (error) {
