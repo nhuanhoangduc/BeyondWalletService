@@ -179,7 +179,7 @@ Erc20Service.getFeeRate = async () => {
 
 Erc20Service.estimateFee = async (sendAddress, amount, minerFeeRate, coin) => {
     try {
-        let estimatedGas = await Erc20Service.estimateGas(sendAddress, amount, coin);
+        let estimatedGas = await Erc20Service.estimateGas(sendAddress, amount, coin);;
         estimatedGas = (new BigNumber(estimatedGas)).multipliedBy(Math.pow(10,9)).toNumber();
         const estimatedFee = (new BigNumber(estimatedGas)).multipliedBy(minerFeeRate).toNumber();
 
@@ -195,7 +195,9 @@ Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
         const contractAddress = Erc20Service.tokens[coin].address;
         const contractAbiFragment = await Erc20Service.getContractABI(contractAddress);
 
-        const MyContract = web3.eth.contract(JSON.parse(contractAbiFragment)).at(contractAddress);
+        const MyContract = web3.eth
+            .contract(typeof contractAbiFragment === 'string' ? JSON.parse(contractAbiFragment) : contractAbiFragment)
+            .at(contractAddress);
         const transaction = {
             from: sendAddress,
             to: contractAddress,
