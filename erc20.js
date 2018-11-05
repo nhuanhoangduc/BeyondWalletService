@@ -183,7 +183,7 @@ Erc20Service.estimateFee = async (sendAddress, amount, minerFeeRate, coin) => {
         estimatedGas = (new BigNumber(estimatedGas)).multipliedBy(Math.pow(10,9)).toNumber();
         const estimatedFee = (new BigNumber(estimatedGas)).multipliedBy(minerFeeRate).toNumber();
 
-        return estimatedFee;
+        return { estimatedFee, estimatedGas };
     } catch (error) {
         throw error;
     }
@@ -215,7 +215,7 @@ Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
 };
 
 
-Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0, coin) => {
+Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0, coin, gasPrice = 5000000000, gasLimit = 40000) => {
     try {
         privateKey = Buffer.from(privateKey, 'hex');
         
@@ -232,7 +232,7 @@ Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, a
         const numberOfTokens = ethers.utils.parseUnits(amount.toString(), decimals);
 
         const transaction = await contractWithSigner.transfer(receiveAddress, numberOfTokens, {
-            gasPrice: 1230000000, gasLimit: 96000,
+            gasPrice: gasPrice, gasLimit: gasLimit,
         });
 
         return transaction.hash;

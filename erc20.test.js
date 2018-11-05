@@ -107,16 +107,17 @@ const { BigNumber } = require('bignumber.js');
     // }
 
     // Get fee
-    try {
-        console.log();
-        console.log('Get fee');
-        const exchangeRate = await Erc20Service.getExchangeRate('krm');
-        const feerate = await Erc20Service.getFeeRate();
-        const fee = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
-        console.log('fee:', fee * exchangeRate);
-    } catch (error) {
-        console.log(error);
-    }
+    // try {
+    //     console.log();
+    //     console.log('Get fee');
+    //     const exchangeRate = await Erc20Service.getExchangeRate('krm');
+    //     const feerate = await Erc20Service.getFeeRate();
+    //     const { estimatedFee, estimatedGas } = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
+    //     console.log('fee:', estimatedFee * exchangeRate);
+    //     console.log(estimatedGas);
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
     // Get exchange rate
     // try {
