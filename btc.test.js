@@ -83,7 +83,7 @@ const BtcService = require('./btc');
         console.log();
         console.log('Get fee');
         const feerate = await BtcService.getFeeRate();
-        const fee = await BtcService.estimateFee('mu3Wkzg9gq3SMRdRXaHd9e2Cb4jmn1D5oh', 200, feerate * Math.pow(10, 8) * 1000);
+        const fee = await BtcService.estimateFee('mu3Wkzg9gq3SMRdRXaHd9e2Cb4jmn1D5oh', 200, feerate);
         console.log('fee:', fee);
     } catch (error) {
         console.log(error);
