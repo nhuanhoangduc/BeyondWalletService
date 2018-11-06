@@ -129,7 +129,7 @@ BtcService.getFeeRate = async () => {
 
 BtcService.estimateFee = async (sendAddress, amount, minerFeeRate) => {
     const transactionAmount = (new BigNumber(amount)).multipliedBy(satoshiValue).toNumber();
-    minerFeeRate = (new BigNumber(minerFeeRate)).multipliedBy(satoshiValue).multipliedBy(1000).toNumber();
+    minerFeeRate = (new BigNumber(minerFeeRate)).multipliedBy(satoshiValue).multipliedBy(10000).toNumber();
 
     // Get utxos
     let utxos = [];
