@@ -154,11 +154,7 @@ Erc20Service.getContractABI = async (contractAddress) => {
 Erc20Service.getExchangeRate = async (coin) => {
     try {
         const url = `https://currencio.co/json/rate`;
-        const params = new URLSearchParams();
-        params.append('from', 'ETH');
-        params.append('to', coin.toUpperCase());
-        params.append('history', '24h');
-        const response = await axios.post(url, params);
+        const response = await axios.post(url, `from=ETH&to=${coin.toUpperCase()}&history=24h`);
 
         const exchangeRate = _.last(response.data)[1];
         return exchangeRate;

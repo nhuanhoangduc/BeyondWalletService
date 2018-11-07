@@ -111,7 +111,7 @@ const { BigNumber } = require('bignumber.js');
     try {
         console.log();
         console.log('Get fee');
-        const exchangeRate = await Erc20Service.getExchangeRate('krm');
+        const exchangeRate = await Erc20Service.getExchangeRate('nanj');
         const feerate = await Erc20Service.getFeeRate();
         const { estimatedFee, estimatedGas } = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
         console.log(estimatedFee)
