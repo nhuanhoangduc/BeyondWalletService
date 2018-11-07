@@ -153,10 +153,14 @@ Erc20Service.getContractABI = async (contractAddress) => {
 
 Erc20Service.getExchangeRate = async (coin) => {
     try {
-        const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=${coin.toUpperCase()}`;
-        const response = await axios.get(url);
+        const url = `https://currencio.co/json/rate`;
+        const params = new URLSearchParams();
+        params.append('from', 'ETH');
+        params.append('to', coin.toUpperCase());
+        params.append('history', '24h');
+        const response = await axios.post(url, params);
 
-        const exchangeRate = response.data.RAW.ETH[coin.toUpperCase()].PRICE;
+        const exchangeRate = _.last(response.data)[1];
         return exchangeRate;
     } catch (error) {
         throw error;

@@ -89,38 +89,38 @@ const { BigNumber } = require('bignumber.js');
     // }
 
     // Send transaction
-    try {
-        console.log();
-        console.log('Send transaction');
-        
-        const transactionId = await Erc20Service.sendTransaction(
-            '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
-            '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
-            'C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521',
-            123,
-            null,
-            null,
-            'krm'
-        );
-        console.log(transactionId);
-    } catch (error) {
-        console.log(error);
-    }
-
-    // Get fee
     // try {
     //     console.log();
-    //     console.log('Get fee');
-    //     const exchangeRate = await Erc20Service.getExchangeRate('krm');
-    //     const feerate = await Erc20Service.getFeeRate();
-    //     const { estimatedFee, estimatedGas } = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
-    //     console.log(estimatedFee)
-    //     console.log(exchangeRate)
-    //     console.log('fee:', estimatedFee * exchangeRate);
-    //     console.log(estimatedGas);
+    //     console.log('Send transaction');
+        
+    //     const transactionId = await Erc20Service.sendTransaction(
+    //         '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
+    //         '0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483',
+    //         'C2D2BBF1F36AAB47A6ACF67F11AEE2307E75D039A9CE6ABFB11ABBCC937E7521',
+    //         123,
+    //         null,
+    //         null,
+    //         'krm'
+    //     );
+    //     console.log(transactionId);
     // } catch (error) {
     //     console.log(error);
     // }
+
+    // Get fee
+    try {
+        console.log();
+        console.log('Get fee');
+        const exchangeRate = await Erc20Service.getExchangeRate('krm');
+        const feerate = await Erc20Service.getFeeRate();
+        const { estimatedFee, estimatedGas } = await Erc20Service.estimateFee('0xA0631a5beFf3509A7dFDfD09caDcC836bb09B483', 1000000, feerate, 'krm');
+        console.log(estimatedFee)
+        console.log(exchangeRate)
+        console.log('fee:', estimatedFee * exchangeRate);
+        console.log(estimatedGas);
+    } catch (error) {
+        console.log(error);
+    }
 
     // Get exchange rate
     // try {
