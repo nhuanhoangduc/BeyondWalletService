@@ -192,27 +192,26 @@ Erc20Service.estimateFee = async (sendAddress, amount, minerFeeRate, coin) => {
 
 Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
     try {
-        return 0.0001;
-        // const contractAddress = Erc20Service.tokens[coin].address;
-        // const contractAbiFragment = await Erc20Service.getContractABI(contractAddress);
+        const contractAddress = Erc20Service.tokens[coin].address;
+        const contractAbiFragment = await Erc20Service.getContractABI(contractAddress);
 
-        // const MyContract = web3.eth
-        //     .contract(typeof contractAbiFragment === 'string' ? JSON.parse(contractAbiFragment) : contractAbiFragment)
-        //     .at(contractAddress);
-        // const transaction = {
-        //     from: sendAddress,
-        //     to: contractAddress,
-        //     value: '0x0',
-        //     data: MyContract.transfer.getData('0x32be343b94f860124dc4fee278fdcbd38c102d88', amount, { from: sendAddress }),
-        // };
+        const MyContract = web3.eth
+            .contract(typeof contractAbiFragment === 'string' ? JSON.parse(contractAbiFragment) : contractAbiFragment)
+            .at(contractAddress);
+        const transaction = {
+            from: sendAddress,
+            to: contractAddress,
+            value: '0x0',
+            data: MyContract.transfer.getData('0x32be343b94f860124dc4fee278fdcbd38c102d88', amount, { from: sendAddress }),
+        };
         
-        // const provider = new ethers.providers.InfuraProvider(Erc20Service.network);
+        const provider = new ethers.providers.InfuraProvider(Erc20Service.network);
 
-        // let fee = await provider.estimateGas(transaction);
-        // fee = web3.fromWei(fee.toNumber(), 'gwei'); // Convert to eth unit
-        // fee = (new BigNumber(fee)).multipliedBy(1.1).toNumber();
+        let fee = await provider.estimateGas(transaction);
+        fee = web3.fromWei(fee.toNumber(), 'gwei'); // Convert to eth unit
+        fee = (new BigNumber(fee)).multipliedBy(1.1).toNumber();
 
-        // return fee;
+        return fee;
     } catch (error) {
         throw error;
     }
