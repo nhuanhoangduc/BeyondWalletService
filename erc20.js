@@ -202,7 +202,7 @@ Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
             from: sendAddress,
             to: contractAddress,
             value: '0x0',
-            data: MyContract.transfer.getData(sendAddress, amount, { from: sendAddress }),
+            data: MyContract.transfer.getData('0x32be343b94f860124dc4fee278fdcbd38c102d88', amount, { from: sendAddress }),
         };
         
         const provider = new ethers.providers.InfuraProvider(Erc20Service.network);
