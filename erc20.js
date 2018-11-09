@@ -177,7 +177,7 @@ Erc20Service.getFeeRate = async () => {
         const url = `https://ethgasstation.info/json/ethgasAPI.json`;
         const response = await axios.get(url);
 
-        const freeRate = (new BigNumber(response.data.average)).dividedBy(10).dividedBy(Math.pow(10, 9)).toNumber();
+        const freeRate = (new BigNumber(response.data.average)).dividedBy(10).dividedBy(Math.pow(10, 9)).multipliedBy(1.1).toNumber();
         return freeRate;
     } catch (error) {
         throw error;
