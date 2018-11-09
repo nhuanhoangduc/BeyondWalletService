@@ -103,11 +103,19 @@ Erc20Service.getAddressInfo = async (coin, address) => {
 
     try {
         const url = `${ApiUrl}/api?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${address}&tag=latest&apikey=YourApiKeyToken`;
-        const response = await axios.get(url);
+        const ethUrl = `${ApiUrl}/api?module=account&action=balance&address=${address}&tag=latest&apikey=YourApiKeyToken`;
+        
+        const [response, ethResponse] = await Promise.all([
+            axios.get(url),
+            axios.get(ethUrl)
+        ]);
+
         const balance = response.data.result;
+        const ethBalance = ethResponse.data.result;
 
         return {
             balance: (new BigNumber(balance)).dividedBy(Math.pow(10, Erc20Service.tokens[coin].decimal)).toNumber(),
+            ethBalance: (new BigNumber(ethBalance)).dividedBy(Math.pow(10, 18)).toNumber(),
         };
     } catch (error) {
         throw new Error(Errors.SERVER_ERROR);
