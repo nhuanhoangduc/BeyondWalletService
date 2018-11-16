@@ -226,7 +226,7 @@ Erc20Service.estimateGas = async (sendAddress, amount, coin) => {
 };
 
 
-Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, gasPrice = 5000000000, gasLimit = 40000, coin) => {
+Erc20Service.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, gasPrice = 5000000000, gasLimit = 100000, coin) => {
     try {
         privateKey = Buffer.from(privateKey, 'hex');
         
