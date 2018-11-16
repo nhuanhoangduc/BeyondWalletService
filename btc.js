@@ -154,7 +154,7 @@ BtcService.estimateFee = async (sendAddress, amount, minerFeeRate) => {
 };
 
 
-BtcService.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0.0001) => {
+BtcService.sendTransaction = async (sendAddress, receiveAddress, privateKey, amount, fee = 0.001) => {
     const minerFee = (new BigNumber(fee)).multipliedBy(satoshiValue).toNumber();
     const transactionAmount = (new BigNumber(amount)).multipliedBy(satoshiValue).toNumber();
 
